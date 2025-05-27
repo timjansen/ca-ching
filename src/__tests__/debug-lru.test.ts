@@ -17,6 +17,9 @@ describe('Debug LRU Eviction', () => {
     let stats = await cache.getStats();
     expect(stats.size).toBe(3);
     
+    // Pause for 2ms to ensure different timestamps
+    await new Promise(resolve => setTimeout(resolve, 2));
+
     // Access key1 and key3 to make it recently used
     const key1Value = await cache.get('key1');
     expect(key1Value).toBe('value1');
