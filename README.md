@@ -278,7 +278,7 @@ MIT License - see LICENSE file for details.
 
 ## Changelog
 
-### 1.0.0
+### 0.0.1
 - Initial release
 - Full feature set implementation
 - Comprehensive test coverage
