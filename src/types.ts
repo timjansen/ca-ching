@@ -44,6 +44,9 @@ export interface CacheOptions<T> {
   /** Eviction policy when cache is full */
   evictionPolicy: EvictionPolicy;
   
+  /** Optional name for the cache for use with decorators */
+  name?: string;
+  
   /** Optional fetch function for automatic cache population */
   fetchFunction?: FetchFunction<T>;
   

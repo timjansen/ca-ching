@@ -14,6 +14,7 @@ A powerful, feature-rich TypeScript caching library for backend services with fu
 - 📈 **Statistics**: Comprehensive hit/miss/eviction tracking
 - 🏷️ **Flexible Keys**: String or array-based keys with prefix operations
 - 🔧 **TypeScript**: Full type safety and IntelliSense support
+- 🎭 **Decorators**: Method-level cache annotations for clean code
 
 ## Installation
 
@@ -246,6 +247,69 @@ const userCache = createCache<User>({
 
 // Fully typed - TypeScript knows this returns User | undefined
 const user: User | undefined = await userCache.get('user123');
+```
+
+## Decorators
+
+Ca-ching provides TypeScript decorators for clean, declarative caching in your classes:
+
+```typescript
+import { createCache, CacheGet, CachePut, CachePutResult, CacheInvalidate } from 'ca-ching';
+
+// Create and register a named cache
+createCache({ name: 'userCache', maxSize: 1000, evictionPolicy: 'lru' });
+
+class UserService {
+  // Cache method results automatically
+  @CacheGet('userCache')
+  async getUser(id: string): Promise<User> {
+    return this.fetchUserFromApi(id);
+  }
+  
+  // Cache with multiple-argument keys
+  @CacheGet('userCache', 1, 2)
+  async getUserWithRole(id: string, role: string): Promise<User> {
+    return this.fetchUserFromApi(id, role);
+  }
+  
+  // Store an object in the cache
+  @CachePut('userCache', 1, 2)
+  async updateUser(user: User, id: string): Promise<void> {
+    await this.updateUserInApi(user);
+  }
+  
+  // Store the method result in the cache
+  @CachePutResult('userCache')
+  async createUser(userData: UserData): Promise<User> {
+    const user = await this.createUserInApi(userData);
+    return user;
+  }
+  
+  // Invalidate cache entries
+  @CacheInvalidate('userCache')
+  async deleteUser(id: string): Promise<void> {
+    await this.deleteUserFromApi(id);
+  }
+}
+```
+
+### Available Decorators
+
+- **@CacheGet(name, firstArg?, lastArg?, cacheKeyBuilder?)** - Gets from cache or calls method and caches result
+- **@CachePut(name, objectArg, firstArg, lastArg?, cacheKeyBuilder?)** - Puts a method parameter into the cache
+- **@CachePutResult(name, firstArg?, lastArg?, cacheKeyBuilder?)** - Puts the method result into the cache
+- **@CacheInvalidate(name, firstArg?, lastArg?, cacheKeyBuilder?)** - Invalidates cache entry
+
+### Custom Cache Key Building
+
+All decorators support custom key building:
+
+```typescript
+@CacheGet('userCache', 1, undefined, (args) => ['users', args[0], 'permissions'])
+async getUserPermissions(id: string): Promise<string[]> {
+  // Method will be cached with key ['users', id, 'permissions']
+  return this.fetchUserPermissions(id);
+}
 ```
 
 ## Performance Considerations
