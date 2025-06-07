@@ -1,4 +1,4 @@
-import { createCache, Cache, CacheOptions } from '../index';
+import { createCache, Cache, CacheOptions } from '../src/index';
 
 describe('Cache Statistics', () => {
   let cache: Cache<string>;

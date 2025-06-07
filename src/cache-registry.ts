@@ -51,3 +51,37 @@ export function unregisterCache(name: string): boolean {
 export function getRegisteredCacheNames(): string[] {
   return Array.from(cacheRegistry.keys());
 }
+
+/**
+ * Get stats for a registered cache by name
+ * @param name The name of the cache
+ * @returns Stats object or undefined if not found
+ */
+export async function getStats(name: string): Promise<any> {
+  const cache = cacheRegistry.get(name);
+  if (!cache) return undefined;
+  const stats = await cache.getStats();
+  return { name, ...stats };
+}
+
+/**
+ * Get stats for all registered caches
+ * @returns Object mapping cache names to their stats
+ */
+export async function getAllStats(): Promise<any> {
+  const names = getRegisteredCacheNames();
+  const statsArr = await Promise.all(names.map(getStats));
+  const result: Record<string, any> = {};
+  for (const stat of statsArr) {
+    if (stat && stat.name) result[stat.name] = stat;
+  }
+  return result;
+}
+
+// happy-server extension support
+if (typeof globalThis !== 'undefined' && (globalThis as any).happyServerExtension) {
+  (globalThis as any).happyServerExtension['ca-ching'] = async () => ({
+    status: 'ok',
+    caches: await getAllStats()
+  });
+}

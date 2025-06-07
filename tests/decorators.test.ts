@@ -5,7 +5,7 @@ import {
   CachePutResult, 
   CacheInvalidate,
   CacheKey 
-} from '../index';
+} from '../src/index';
 
 describe('Cache Decorators', () => {
   

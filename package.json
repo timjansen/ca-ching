@@ -12,7 +12,13 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts"
   },
-  "keywords": ["cache", "caching", "typescript", "backend", "performance"],
+  "keywords": [
+    "cache",
+    "caching",
+    "typescript",
+    "backend",
+    "performance"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {

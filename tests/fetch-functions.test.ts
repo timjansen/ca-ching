@@ -1,4 +1,4 @@
-import { createCache, Cache, CacheOptions } from '../index';
+import { createCache, Cache, CacheOptions } from '../src/index';
 
 describe('Cache Fetch Functions', () => {
   let mockTime: jest.Mock;

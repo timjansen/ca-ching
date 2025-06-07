@@ -1,4 +1,4 @@
-import { createCache, Cache, CacheOptions } from '../index';
+import { createCache, Cache, CacheOptions } from '../src/index';
 
 describe('Multi-Level Caching', () => {
   let l1Cache: Cache<string>;

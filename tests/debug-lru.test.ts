@@ -1,4 +1,4 @@
-import { createCache, Cache, CacheOptions } from '../index';
+import { createCache, Cache, CacheOptions } from '../src/index';
 
 describe('Debug LRU Eviction', () => {
   test('debug LRU behavior', async () => {
