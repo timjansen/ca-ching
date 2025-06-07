@@ -52,12 +52,7 @@ export function getRegisteredCacheNames(): string[] {
   return Array.from(cacheRegistry.keys());
 }
 
-/**
- * Get stats for a registered cache by name
- * @param name The name of the cache
- * @returns Stats object or undefined if not found
- */
-export async function getStats(name: string): Promise<any> {
+async function getStats(name: string): Promise<any> {
   const cache = cacheRegistry.get(name);
   if (!cache) return undefined;
   const stats = await cache.getStats();
